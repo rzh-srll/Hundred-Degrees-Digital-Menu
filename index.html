@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hundred Degrees - Digital Menu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom fonts and styles inspired by original */
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Oswald', sans-serif;
+      background-color: #d8cec0;
+      color: #000;
+      margin: 0;
+      padding: 0;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    header {
+      background: #111827; /* dark navy black */
+      color: #f5d3a1;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      user-select: none;
+    }
+    main {
+      max-width: 960px;
+      margin: 1rem auto 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 2rem 3rem;
+      padding: 0 1rem;
+    }
+    section.menu-category {
+      background: #f5d3a1;
+      border-radius: 0.75rem;
+      padding: 1.2rem 1.8rem;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.12);
+    }
+    section.menu-category.dark-bg {
+      background: #111827;
+      color: #f5d3a1;
+    }
+    section.menu-category h2 {
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      background: #111827;
+      color: #fff;
+      border-radius: 0 1rem 1rem 0;
+      padding: 0.2rem 1rem;
+      display: inline-block;
+      user-select: none;
+    }
+    section.menu-category.dark-bg h2 {
+      background: #f5d3a1;
+      color: #111827;
+    }
+    ul.menu-items {
+      padding-left: 0;
+      list-style: none;
+      margin: 0;
+    }
+    ul.menu-items li {
+      display: flex;
+      /* Changed to align items to the start for better multi-price alignment */
+      align-items: flex-start;
+      padding: 0.18rem 0;
+      border-bottom: 1px solid rgb(0 0 0 / 0.1);
+    }
+    ul.menu-items li:last-child {
+      border-bottom: none;
+    }
+    ul.menu-items li span.name {
+      font-weight: 500;
+      user-select: text;
+      /* Allow name to take up available space */
+      flex-grow: 1;
+    }
+    ul.menu-items li span.price {
+      font-weight: 700;
+      min-width: 42px;
+      text-align: right;
+      user-select: text;
+      /* Ensure prices are aligned to the right and have consistent width */
+      flex-shrink: 0; /* Prevent shrinking */
+      margin-left: 0.5rem; /* Add some space between name and price */
+    }
+    /* Specific styling for multiple prices to ensure they align */
+    ul.menu-items li span.price + span.price {
+        margin-left: 1rem; /* More space between multiple prices */
+    }
+    ul.menu-items li small {
+      font-weight: 400;
+      font-style: italic;
+      color: #858484;
+      display: block;
+      margin-top: -4px;
+      padding-left: 0.4rem;
+      font-size: 0.8rem;
+      user-select: text;
+    }
+    ul.menu-items li.subtext {
+      flex-direction: column;
+      color: #3a3a3a;
+      font-weight: 600;
+      font-style: normal;
+      border: none;
+    }
+    .menu-flex {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+      font-weight: 700;
+      font-size: 0.85rem;
+      user-select: none;
+      margin-bottom: 0.6rem;
+    }
+    .subheader {
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      user-select: none;
+      position: fixed;
+      top: 20px;
+      right: 10px;
+      color: #111827;
+      font-family: 'Oswald', sans-serif;
+      pointer-events: none;
+      opacity: 0.2;
+      transform: rotate(180deg);
+      height: 90vh;
+      text-align: center;
+      line-height: 1.3;
+      width: 22px;
+    }
+    footer {
+      max-width: 960px;
+      margin: 3rem auto 2rem;
+      text-align: center;
+      color: #555;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      user-select: none;
+    }
+    .qr-container {
+      margin-top: 1rem;
+      display: inline-block;
+      padding: 1rem;
+      background-color: #f5d3a1;
+      border-radius: 1rem;
+      box-shadow: 0 0 12px rgb(0 0 0 / 0.15);
+      user-select: none;
+    }
+    .qr-container img {
+      max-width: 200px;
+      width: 100%;
+      border-radius: 1rem;
+      box-shadow: 0 0 5px rgb(0 0 0 / 0.3);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .qr-container img:hover {
+      transform: scale(1.05);
+    }
+    .qr-caption {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #111827;
+    }
+    @media (max-width: 600px) {
+      .subheader {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>HUNDRED DEGREES</header>
+
+  <main role="main" aria-label="Restaurant menu">
+    <section class="menu-category" aria-labelledby="must try-header">
+      <h2 id="must try-header" tabindex="0">MUST TRY</h2>
+      <div class="menu-category" aria-hidden="true">
+        <span class="name italic text-black-200 user-select-text"><em>SEASONAL ITEMS (Butterscotch Series)</em></span>
+
+      <div class="menu-flex" aria-hidden="true">
+        <span>16oz</span>
+        <span>22oz</span>
+      </div>
+
+      <ul class="menu-items">
+        <li><span class="name">Hot Butterscotch Latte</span><span class="price">135</span><span class="price">145</span></li>
+        <li><span class="name">Iced Butterscotch Latte</span><span class="price">165</span><span class="price">175</span></li>
+        <li><span class="name">Cookie Butterscotch Blended</span><span class="price">185</span><span class="price">195</span></li>
+      </ul>
+
+    <div class="menu-category" aria-hidden="true">
+        <span class="price italic text-black-200 user-select-text">NEW ON OUR MENU</span>
+      </div>
+
+      <div class="menu-flex" aria-hidden="true">
+        <span>Solo</span>
+        <span>Big Plate</span>
+      </div>
+
+    <ul class="menu-items">
+        <li><span class="name">Chicken Skin</span><span class="price">100</span><span class="price"></span></li>
+        <li><span class="name">Beef Salpicao</span><span class="price">200</span><span class="price">385</span></li>
+        <li><span class="name">Sisig Pusit</span><span class="price">155</span><span class="price">315</span></li>
+        <li><span class="name">Truffle Pasta</span><span class="price">200</span><span class="price">340</span></li>
+        <li><span class="name">Pesto Pasta</span><span class="price">175</span><span class="price">340</span></li>
+        <li><span class="name">Cheesy Potato Croquette</span><span class="price">170</span><span class="price"></span></li>
+        <li><span class="name">HD Beed Burger</span><span class="price">185</span><span class="price"></span></li>
+        <li><span class="name">Dark Cafe Mocha</span><span class="price">155</span><span class="price">175</span></li>
+        <li><span class="name">Mango Yogurt Smoothie </span><span class="price">134</span><span class="price"></span></li>
+        <li><span class="name">Green Mango Yogurt Smoothie </span><span class="price">135</span><span class="price"></span></li>
+        <li><span class="name">Berry Banana Yogurt Smoothie </span><span class="price">125</span><span class="price"></span></li>
+    </ul>
+    </section>
+
+    <section class="menu-category" aria-labelledby="sandwiches-header">
+      <h2 id="sandwiches-header" tabindex="0">Sandwiches</h2>
+      <ul class="menu-items">
+        <li><span class="name">Chicken Burger</span><span class="price">165</span></li>
+        <li><span class="name">Hundred Degrees Beef Burger</span><span class="price">185</span></li>
+        <li><span class="name">Classic Clubhouse</span><span class="price">225</span></li>
+        <li><span class="name">All Meat Pizza Sandwich</span><span class="price">175</span></li>
+        <li><span class="name">Three Cheese Pizza Sandwich</span><span class="price">155</span></li>
+        <li><span class="name">Mushroom Pesto Pizza Sandwich</span><span class="price">145</span></li>
+      </ul>
+    </section>
+
+    <section class="menu-category" aria-labelledby="sweets-header">
+      <h2 id="sweets-header" tabindex="0">Sweets</h2>
+      <ul class="menu-items">
+        <li><span class="name">Nutella Waffles</span><span class="price">155</span></li>
+        <li><span class="name">Blueberry Creamcheese Waffles</span><span class="price">185</span></li>
+        <li><span class="name">Chocolate Cinnamon Waffles</span><span class="price">165</span></li>
+        <li><span class="name">Bacon and Ham Waffles</span><span class="price">185</span></li>
+        <li class="subtext"><span class="name"><em>French Toast</em></span></li>
+        <li><span class="name">Classic Mapple Frenhtoast</span><span class="price">155</span></li>
+        <li><span class="name">Chocolate Cinnamon Frenhtoast</span><span class="price">175</span></li>
+      </ul>
+    </section>
+
+    <section class="menu-category dark-bg" aria-labelledby="juices-header">
+      <h2 id="juices-header" tabindex="0">Juices & Tea</h2>
+      <ul class="menu-items">
+        <li><span class="name">Classic Lemonade Smoothie </span><span class="price">125</span></li>
+        <li><span class="name">Classic Mint Cucumber</span><span class="price">100</span></li>
+        <li><span class="name">Honey Citron</span><span class="price">100</span></li>
+        <li><span class="name">Hibiscus Tea with Popping Pearls</span><span class="price">125</span></li>
+        <li><span class="name">Berry Banana Yogurt Smoothie</span><span class="price">125</span></li>
+        <li><span class="name">Mango Yogurt Smoothie</span><span class="price">135</span></li>
+        <li><span class="name">Green Mango Yogurt Smoothie</span><span class="price">135</span></li>
+      </ul>
+    </section>
+
+    <section class="menu-category" aria-labelledby="pasta-header">
+      <h2 id="pasta-header" tabindex="0">Pasta</h2>
+      <div class="menu-flex" aria-hidden="true">
+        <span>Solo</span>
+        <span>Big Plate</span>
+      </div>
+      <ul class="menu-items">
+        <li><span class="name">Sweet Baked Mac</span><span class="price">200</span><span class="price">395</span></li>
+        <li><span class="name">Creamy Carbonara</span><span class="price">205</span><span class="price">405</span></li>
+        <li><span class="name">Chicken Alfredo</span><span class="price">210</span><span class="price">415</span></li>
+        <li><span class="name">Mushroom Shrimp</span><span class="price">220</span><span class="price">435</span></li>
+        <li><span class="name">Tuna Aglio Olio</span><span class="price">175</span><span class="price">340</span></li>
+        <li><span class="name">Truffle Pasta</span><span class="price">200</span><span class="price">395</span></li>
+        <li><span class="name">Pesto Pasta</span><span class="price">175</span><span class="price">340</span></li>
+        <li><span class="name">Seafood Negra</span><span class="price">250</span><span class="price">495</span></li>
+      </ul>
+    </section>
+
+    <section class="menu-category dark-bg" aria-labelledby="hotdrinks-header">
+      <h2 id="hotdrinks-header" tabindex="0">Hot Drinks</h2>
+      <div class="menu-flex" aria-hidden="true">
+        <span>8oz</span>
+        <span>12oz</span>
+      </div>
+      <ul class="menu-items">
+        <li><span class="name">Americano</span><span class="price">90</span><span class="price">100</span></li>
+        <li><span class="name">Café Latté</span><span class="price">100</span><span class="price">110</span></li>
+        <li><span class="name">Flavored Latté <small>(vanilla, hazelnut, caramel)</small></span><span class="price">100</span><span class="price">110</span></li>
+        <li><span class="name">Cappuccino</span><span class="price">100</span><span class="price">110</span></li>
+        <li><span class="name">Brevé</span><span class="price">110</span><span class="price">115</span></li>
+        <li><span class="name">Caramel Macchiato</span><span class="price">110</span><span class="price">115</span></li>
+        <li><span class="name">White Chocolate Mocha</span><span class="price">115</span><span class="price">120</span></li>
+        <li><span class="name">Café Mocha</span><span class="price">115</span><span class="price">120</span></li>
+        <li><span class="name">Spanish Latté</span><span class="price">115</span><span class="price">120</span></li>
+        <li><span class="name">Matcha Latté</span><span class="price">115</span><span class="price">120</span></li>
+      </ul>
+    </section>
+
+    <section class="menu-category" aria-labelledby="overiced-header">
+      <h2 id="overiced-header" tabindex="0">Over Iced</h2>
+      <div class="menu-flex" aria-hidden="true">
+        <span>16oz</span>
+        <span>22oz</span>
+      </div>
+      <ul class="menu-items">
+        <li><span class="name">Hazelnut Oatmilk Espresso</span><span class="price">185</span><span class="price">205</span></li>
+        <li><span class="name">Oatmilk Cereal Latté</span><span class="price">165</span><span class="price">185</span></li>
+        <li><span class="name">White Chocolate Mocha</span><span class="price">155</span><span class="price">175</span></li>
+        <li><span class="name">Dark Café Mocha</span><span class="price">155</span><span class="price">175</span></li>
+        <li><span class="name">Caramel Macchiato</span><span class="price">155</span><span class="price">175</span></li>
+        <li><span class="name">Spanish Latté</span><span class="price">155</span><span class="price">175</span></li>
+        <li><span class="name">Vanilla Breve</span><span class="price">185</span><span class="price">205</span></li>
+        <li><span class="name">Ube Latté</span><span class="price">145</span><span class="price">155</span></li>
+        <li><span class="name">Matcha Latté</span><span class="price">145</span><span class="price">155</span></li>
+        <li><span class="name">Americano</span><span class="price">110</span><span class="price">120</span></li>
+        <li><span class="name">Flavored Latté <small>(vanilla, hazelnut, caramel)</small></span><span class="price">110</span><span class="price">120</span></li>
+      </ul>
+    </section>
+
+    <section class="menu-category" aria-labelledby="iceblended-header">
+      <h2 id="iceblended-header" tabindex="0">Ice Blended</h2>
+      <div class="menu-flex" aria-hidden="true">
+        <span>16oz</span>
+        <span>22oz</span>
+      </div>
+      <ul class="menu-items">
+        <li><span class="name">Café Vanilla</span><span class="price">150</span><span class="price">165</span></li>
+        <li><span class="name">Classic Espresso</span><span class="price">150</span><span class="price">165</span></li>
+        <li><span class="name">White Chocolate Cookie</span><span class="price">155</span><span class="price">170</span></li>
+        <li><span class="name">Double Chocolaty Chip</span><span class="price">155</span><span class="price">170</span></li>
+        <li><span class="name">Matcha Creme</span><span class="price">165</span><span class="price">185</span></li>
+      </ul>
+    </section>
+
+    <section class="menu-category dark-bg" aria-labelledby="entree-header">
+      <h2 id="entree-header" tabindex="0">Entree</h2>
+      <div class="menu-flex" aria-hidden="true">
+        <span>Solo</span>
+        <span>Big Plate</span>
+      </div>
+
+      <ul class="menu-items">
+        <li><span class="name">Smoked Baby Back Ribs</span><span class="price"></span><span class="price italic text-yellow-200 user-select-text">*price per grams</span></li>
+        <li><span class="name">Grilled Burger Steak</span><span class="price">155</span><span class="price"></span></li>
+        <li><span class="name">Pork Binagoongan</span><span class="price">185</span><span class="price">360</span></li>
+        <li><span class="name">Crispy Pork Kare-Kare</span><span class="price">220</span><span class="price">400</span></li>
+        <li><span class="name">Pork Asado</span><span class="price">185</span><span class="price">320</span></li>
+        <li><span class="name">Beef Salpicao</span><span class="price">200</span><span class="price">385</span></li>
+        <li><span class="name">Pork Sisig</span><span class="price">135</span><span class="price">285</span></li>
+        <li><span class="name">Sisig Bangus</span><span class="price">130</span><span class="price">265</span></li>
+        <li><span class="name">Sisig Pusit</span><span class="price">155</span><span class="price">315</span></li>
+        <li><span class="name">Sinigang Salmon Belly</span><span class="price">155</span><span class="price">400</span></li>
+        <li><span class="name">Sweet Smoked Chicken BBQ</span><span class="price">195</span><span class="price"></span></li>
+        <li><span class="name">Chicken Katsu</span><span class="price">99</span><span class="price"></span></li>
+        <li><span class="name">Chicken Ala King</span><span class="price">99</span><span class="price"></span></li>
+        <li><span class="name">Orange Chicken</span><span class="price">99</span><span class="price"></span></li>
+        <li><span class="name">Honey Garlic Chicken</span><span class="price">99</span><span class="price"></span></li>
+        <li><span class="name">Chicken Mushroom Gravy</span><span class="price">99</span><span class="price"></span></li>
+      </ul>
+    </section>
+
+    <section class="menu-category" aria-labelledby="starter-header">
+      <h2 id="starter-header" tabindex="0">Starter</h2>
+      <ul class="menu-items">
+        <li><span class="name">Wedges and Chicken Finger</span><span class="price">170</span></li>
+        <li><span class="name">Classic Potato Wedges</span><span class="price">110</span></li>
+        <li><span class="name">Cheesy Garlic Potato Wedges</span><span class="price">130</span></li>
+        <li><span class="name">Baked Cheesy Nachos</span><span class="price">250</span></li>
+        <li><span class="name">Cheesy Potato Croquette</span><span class="price">170</span></li>
+        <li><span class="name">Chicken Wings (6pcs)</span><span class="price">230</span></li>
+        <li><span class="name">FLAVORS:</span><span class="price"></span></li>
+        <li><span class="name">Honey Garlic</span><span class="price"></span></li>
+        <li><span class="name">Garlic Parmesan</span><span class="price"></span></li>
+        <li><span class="name">Spicy Smoked BBQ</span><span class="price"></span></li>
+        <li><span class="name">Honey BBQ</span><span class="price"></span></li>
+        <li><span class="name">Salted Egg</span><span class="price"></span></li>
+      </ul>
+    </section>
+  </main>
+
+  <div class="subheader" aria-hidden="true">H U N D R E D   D E G R E E S</div>
+
+</body>
+</html>
